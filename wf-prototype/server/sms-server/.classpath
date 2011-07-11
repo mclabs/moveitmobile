@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/smslib-v3.2.0"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/sms-utils"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

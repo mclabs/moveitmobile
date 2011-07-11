@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** smslib-v3.2.0                                 ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Daniel Kayiwa                               ** -->
+<!-- ** @version 1.0                                        ** -->
+<!-- ********************************************************* -->
+<project name="smslib-v3.2.0" default="package">
+		
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+	<target name="init" description="initialization">
+		
+		<path id="classpath">
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+		</path>
+
+	</target>
+
+	<target name="clean" description="Delete bin and dist directories">
+		<delete dir="dist" />
+		<delete dir="bin" />
+	</target>
+
+	<target name="compile" depends="init" description="Compiles the lib">
+		<mkdir dir="bin" />
+		
+		<!--  Compile midlet java files -->
+		<javac destdir="bin" classpathref="classpath" debug="true" debuglevel="lines,source">
+			<src path="src/" />
+			<include name="**/*.java" />
+		</javac>	
+	</target>
+	
+	<target name="package" depends="clean,init,compile" description="Packages sms lib into jar file">
+		<mkdir dir="dist" />
+		
+		<!-- Create distributable jar file -->
+		<jar destfile="dist/smslib-v3.2.0.jar">
+			<zipfileset dir="bin" prefix="" />
+			<zipfileset src="lib\comm.jar" />
+			<zipfileset src="lib\commons-net-1.4.1.jar" />
+			<!--- <zipfileset src="lib\log4j-1.2.15.jar" /> -->
+		</jar>
+	</target>
+
+</project>
+

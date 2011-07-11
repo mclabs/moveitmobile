@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/bluetooth-client"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/dbutils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/midp-dbutils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/midp-mvc"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/midp-utils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/transport-layer"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/purcai"/>
+	<classpathentry kind="con" path="org.elipse.mtj.JavaMEContainer/Sun Java(TM) Wireless Toolkit 2.5.2_01 for CLDC/MediaControlSkin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/openxdata"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/openxdata-midp"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

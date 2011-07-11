@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** Mobile openxdata-midp                               ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Dagmar Timler                               ** -->
+<!-- ********************************************************* -->
+<project name="build-version" default="init">
+	
+	<property file="antbuild.properties"/>
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<fileset dir="${basedir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+	
+	
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+	<target name="init" depends="" description="initialization">
+	
+		<filterset id="variables.to.replace">
+			<filter token="single.question.edit" value="${single.question.edit}" />
+			<filter token="question.numbering" value="${question.numbering}" />
+			<filter token="ok.on.right" value="${ok.on.right}" />
+			<filter token="is.hide.studies" value="${is.hide.studies}" />
+			<filter token="use.study.numeric.id" value="${use.study.numeric.id}" />
+			<filter token="main.menu" value="${main.menu}" />
+		</filterset>
+			
+		<copy file="${basedir}/template/FormsConstants.java" toFile="${basedir}/src/org/openxdata/forms/FormsConstants.java" overwrite="true">
+		  <filterset refid="variables.to.replace" />
+		</copy>
+		
+		<echo message = "successfully built openxdata form setting properties: see ${basedir}/src/org/openxdata/forms/FormsConstants.java"/>
+		<echo message = "now please refresh your project (F5)" />
+		
+	</target>
+
+</project>

@@ -1,0 +1,9 @@
+MIDlet-Version: 1.0
+MIDlet-Vendor: FCIT
+MIDlet-Jar-URL: purcai-midlet.jar
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-1: PurcAI,/icons/PURCAI.png ,org.fcitmuk.purcai.forms.MainForm
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Jar-Size: 38739
+MIDlet-Name: PurcAI
+MIDlet-Description: This midlet does purcai data collection.

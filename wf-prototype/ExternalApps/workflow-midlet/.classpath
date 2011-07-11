@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="con" path="org.elipse.mtj.JavaMEContainer/Sun Java(TM) Wireless Toolkit 2.5.2_01 for CLDC/MediaControlSkin"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/openxdata"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/openxdata-midp"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/bluetooth-client"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/dbutils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jzlib-1.0.7"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/midp-dbutils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/midp-mvc"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/midp-utils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/transport-layer"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/org/openxdata/openxdata-wf-mobile-model/1.0-SNAPSHOT/openxdata-wf-mobile-model-1.0-SNAPSHOT.jar" sourcepath="/OXD_WF_HOME/openxdata-wf-mobile-model/src/main/java"/>
+	<classpathentry kind="lib" path="C:/WTK2.5.2_01/lib/midpapi21.jar" sourcepath="C:/WTK2.5.2_01/lib/midpapi21-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

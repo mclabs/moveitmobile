@@ -1,0 +1,10 @@
+MIDlet-Jar-Size: 38739
+MIDlet-1: openXdata,/icons/openxdata.png ,org.openxdata.forms.MainForm
+MIDlet-Jar-URL: openxdata-midlet-1.7.jar
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-Version: 1.7
+MIDlet-Name: openXdata
+MIDlet-Description: This midlet does openxdata data collection.
+MIDlet-Vendor: openXdata
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Permissions: javax.microedition.media.control.VideoControl.getSnapshot  javax.microedition.io.Connector.socket,javax.microedition.io.Connector.http

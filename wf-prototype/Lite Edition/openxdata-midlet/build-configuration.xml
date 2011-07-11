@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** Mobile openxdata-midlet                             ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Dagmar Timler                               ** -->
+<!-- ********************************************************* -->
+<project name="build-version" default="init">
+	
+	<property file="antbuild.properties"/>
+	
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<fileset dir="${basedir}" includes="*.jar" />
+		</classpath>
+	</taskdef>
+	
+	
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+	<target name="init" depends="" description="initialization">
+	
+		<filterset id="variables.to.replace">
+			<filter token="version.major" value="${version.major}" />
+			<filter token="version.minor" value="${version.minor}" />
+			<filter token="midlet.name" value="${midlet.name}" />
+			<filter token="midlet.icon" value="${midlet.icon}" />
+		</filterset>
+			
+		<copy file="${basedir}/template/Application Descriptor" toFile="${basedir}/Application Descriptor" overwrite="true">
+			<filterset refid="variables.to.replace" />
+		</copy>
+		<copy file="${basedir}/template/MidletConstants.java" toFile="${basedir}/src/org/openxdata/forms/MidletConstants.java" overwrite="true">
+			<filterset refid="variables.to.replace" />
+		</copy>
+
+		<echo message = "successfully replaced variables in template files ${basedir}/templates"/>
+		<echo message = "now please refresh your project (F5)" />
+		
+	</target>
+
+</project>

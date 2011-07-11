@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- @author Daniel Kayiwa -->
+<project name="dbutils" default="package">
+	<property file="../build.properties"/>
+	<property name="midp" value="${WTK-ROOT}"/>
+	<property name="midp_lib" value="${midp}/lib/midpapi20.jar"/>
+	<property name="cldc_lib" value="${midp}/lib/cldcapi10.jar" />	
+
+	<target name="clean" description="Delete bin and dist directories">
+		<delete dir="dist" />
+		<delete dir="bin" />
+		<delete dir="build/preverified"/>
+	</target>
+
+	<target name="compile" description="Compiles the database utilities">
+		<mkdir dir="bin" />
+		
+		<!--  Compile midlet java files -->
+		<javac destdir="bin" source="1.3" target="1.3" debug="true" debuglevel="lines,source">
+			<src path="src/" />
+			<include name="**/*.java" />
+		</javac>	
+	</target>
+	
+	<target name="preverify" depends="clean, compile">
+		<mkdir dir="build/preverified"/>
+		<exec executable ="${midp}/bin/preverify" failonerror="true">
+			<arg line="-classpath ${midp_lib}${path.separator}${cldc_lib}"/>
+			<arg line="-d build/preverified"/>
+			<arg line="bin"/>
+		</exec>
+	</target>
+	
+	<target name="package" depends="preverify" description="Packages database utilities into jar file">
+		<mkdir dir="dist" />
+		
+		<!-- Create distributable jar file -->
+		<jar destfile="dist/dbutils.jar">
+			<fileset dir="build/preverified" includes="**/*" />
+		</jar>
+	</target>
+</project>

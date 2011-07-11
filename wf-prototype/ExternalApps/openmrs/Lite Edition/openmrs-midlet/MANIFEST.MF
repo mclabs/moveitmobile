@@ -1,0 +1,8 @@
+MIDlet-Name: OpenMRS
+MIDlet-Vendor: FCIT
+MIDlet-Version: 1.7
+MIDlet-1: OpenMRS,/icons/openmrs.png  , org.fcitmuk.openmrs.forms.MainForm
+MicroEdition-Configuration: CLDC-1.0
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Description: This midlet does epihandy data collection.
+MIDlet-Permissions: javax.microedition.media.control.VideoControl.getSnapshot

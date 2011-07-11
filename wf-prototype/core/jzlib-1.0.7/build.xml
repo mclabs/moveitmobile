@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** jzlib-1.0.7                                 ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Daniel Kayiwa                               ** -->
+<!-- ** @version 1.0                                        ** -->
+<!-- ********************************************************* -->
+<project name="jzlib-1.0.7" default="package">
+	
+	<property file="../build.properties"/>
+		<property name="midp" value="${WTK-ROOT}"/>
+	<property name="midp_lib" value="${midp}/lib/midpapi20.jar"/>
+	<property name="cldc_lib" value="${midp}/lib/cldcapi10.jar" />
+	
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+	<target name="init" description="initialization">
+		
+		<path id="classpath">
+		</path>
+
+	</target>
+
+	<target name="clean" description="Delete bin and dist directories">
+		<delete dir="dist" />
+		<delete dir="bin" />
+		<delete dir="build/preverfied"/>
+	</target>
+
+	<target name="compile" depends="init" description="Compiles the API">
+		<mkdir dir="bin" />
+		
+		<!--  Compile midlet java files -->
+		<javac destdir="bin" classpathref="classpath" source="1.3" target="1.3" debug="true" debuglevel="lines,source">
+			<src path="src/" />
+			<include name="**/*.java" />
+		</javac>	
+	</target>
+	
+	<target name="preverify" depends="clean,init, compile">
+		<mkdir dir="build/preverified"/>
+		<exec executable ="${midp}/bin/preverify">
+			<arg line="-classpath ${midp_lib}${path.separator}${cldc_lib}"/>
+			<arg line="-d build/preverified"/>
+			<arg line="bin"/>
+		</exec>
+	</target>
+	
+	<target name="package" depends="preverify" description="Packages jzlib-1.0.7 api into jar file">
+		<mkdir dir="dist" />
+		
+		<!-- Create distributable jar file -->
+		<jar destfile="dist/jzlib-1.0.7.jar">
+			<zipfileset dir="build/preverified" prefix="" />
+		</jar>
+	</target>
+
+</project>

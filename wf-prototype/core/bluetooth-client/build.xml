@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** Database utils for midlets                          ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Tumwebaze charles                               ** -->
+<!-- ** @version 1.0                                        ** -->
+<!-- ********************************************************* -->
+<project name="bluetoothclient" default="package" basedir=".">
+    <property file="../build.properties"/>
+    <property name="midp" value="${WTK-ROOT}"/>
+    <property name="midp_lib" value="${midp}/lib/midpapi20.jar"/>
+    <property name="cldc_lib" value="${midp}/lib/cldcapi10.jar" />
+    <property name="openxdata" value="../openxdata/dist/openxdata.jar"/>
+    <property name="dbutils" value="../dbutils/dist/dbutils.jar"/>
+    <property name="bluecove" value="lib/bluecove-2.1.0.jar"/>
+	
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+    <target name="init" description="initialization">
+		
+        <path id="classpath">
+			
+            <fileset dir="lib">
+                <include name="**/*.jar"/>
+            </fileset>
+			
+            <pathelement location="${openxdata}"/>
+            <pathelement location="${dbutils}"/>
+            <pathelement location="${bluecove}"/>
+        </path>
+
+    </target>
+
+    <target name="clean" description="Delete bin and dist directories">
+        <delete dir="dist" />
+        <delete dir="bin" />
+        <delete dir="build/preverified"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compiles the code">
+        <mkdir dir="bin" />
+		
+		<!--  Compile midlet java files -->
+        <javac destdir="bin" bootclasspath="${midp_lib};${cldc_lib}" classpathref="classpath" target="1.3" source="1.3" debug="true" debuglevel="lines,source">
+            <src path="src/" />
+            <include name="**/*.java" />
+            <classpath>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="${openxdata}"/>
+                <pathelement location="${dbutils}"/>
+                <pathelement location="${bluecove}"/>
+            </classpath>
+        </javac>
+    </target>
+	
+    <target name="package" depends="preverify" description="Packages code into jar file">
+        <mkdir dir="dist" />
+		
+		<!-- Create distributable jar file -->
+        <jar destfile="dist/bluetoothclient.jar">
+            <fileset dir="build/preverified" includes="**/*" />
+			<!--<zipfileset src="${bluecove}"/> -->
+        </jar>
+    </target>
+
+    <target name="preverify" depends="clean,init, compile">
+        <mkdir dir="build/preverified"/>
+        <exec executable ="${midp}/bin/preverify">
+            <arg line="-classpath ${midp_lib}${path.separator}${cldc_lib}${path.separator}${dbutils}${path.separator}${openxdata}${path.separator}${bluecove}"/>
+            <arg line="-d build/preverified"/>
+            <arg line="bin"/>
+        </exec>
+    </target>
+</project>
+

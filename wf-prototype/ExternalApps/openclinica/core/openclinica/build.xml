@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** database utilities                                  ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Daniel Kayiwa                               ** -->
+<!-- ** @version 1.0                                        ** -->
+<!-- ********************************************************* -->
+<project name="dbutils" default="package">
+		
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+	<target name="init" description="initialization">
+		
+		<path id="classpath">
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+		</path>
+
+	</target>
+
+	<target name="clean" description="Delete bin and dist directories">
+		<delete dir="dist" />
+		<delete dir="bin" />
+	</target>
+
+	<target name="compile" depends="init" description="Compiles the database utilities">
+		<mkdir dir="bin" />
+		
+		<!--  Compile midlet java files -->
+		<javac destdir="bin" classpathref="classpath" debug="true" debuglevel="lines,source">
+			<src path="src/" />
+			<include name="**/*.java" />
+		</javac>	
+	</target>
+	
+	<target name="package" depends="clean,init,compile" description="Packages database utilities into jar file">
+		<mkdir dir="dist" />
+		
+		<!-- Create distributable jar file -->
+		<jar destfile="dist/dbutils.jar">
+			<fileset dir="bin" includes="**/*" />
+		</jar>
+	</target>
+
+</project>
+

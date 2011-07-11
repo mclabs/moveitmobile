@@ -1,0 +1,11 @@
+MIDlet-Version: 1.0
+MIDlet-Vendor: FCIT
+MIDlet-Jar-URL: openclinica-midlet.jar
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-1: OpenClinica,/icons/Akazalogo.PNG ,org.fcitmuk.openclinica.forms.MainForm
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Jar-Size: 122
+MIDlet-Name: OpenClinica
+MIDlet-Push-1: sms://:1211, org.fcitmuk.openclinica.forms.MainForm, *
+MIDlet-Description: This midlet does openclinica data collection.
+SMS-Port: 1275

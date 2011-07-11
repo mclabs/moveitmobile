@@ -1,0 +1,202 @@
+
+<project name="openxdata-midlet" default="run-non-obfuscated" basedir=".">
+    <property file="antbuild.properties"/>
+    <property file="../../build.properties"/>
+    <property name="midp" value="${WTK-ROOT}"/>
+    <property name="midp_lib" value="${midp}/lib/midpapi20.jar"/>
+    <property name="cldc_lib" value="${midp}/lib/cldcapi10.jar"/>
+    <property name="mmapi" value="${midp}/lib/mmapi.jar"/>
+    <property name="openxdata-midp" value="../../core/openxdata-midp/dist/openxdata-midp.jar"/>
+    <property name="openxdata" value="../../core/openxdata/dist/openxdata.jar"/>
+    <property name="midp-mvc" value="../../core/midp-mvc/dist/midp-mvc.jar"/>
+    <property name="midp-dbutils" value="../../core/midp-dbutils/dist/midp-dbutils.jar"/>
+    <property name="midp-utils" value="../../core/midp-utils/dist/midp-utils.jar"/>
+    <property name="transport-layer" value="../../core/transport-layer/dist/transportlayer.jar"/>
+    <property name="bluetooth-client" value="../../core/bluetooth-client/dist/bluetoothclient.jar"/>
+    <property name="jzlib" value="../../core/jzlib-1.0.7/dist/jzlib-1.0.7.jar"/>
+    <property name="cldc_classes" value="../../core/openxdata-midp/lib/cldc_classes.jar"/>
+    <property name="bluecove" value="../../core/bluetooth-client/lib/bluecove-2.1.0.jar"/>
+
+    <property name="version" value="${version.major}.${version.minor}"/>
+    <property name="packaged-jar" value="${jar.name}-midlet-${version}.jar"/>
+    <property name="obfuscated-jar" value="${jar.name}-midlet-${version}.jar"/>
+
+    <property name="wtk.cldc.version" value="1.0"/>
+    <property name="wtk.midp.version" value="2.0"/>
+    <property name="wtk.home" value="${WTK-ROOT}"/>
+
+    <taskdef resource="antenna.properties" classpath="antenna-bin-1.2.1-beta.jar"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="proguard-4.4.jar"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="ant-contrib-1.0b2.jar"/>
+
+    <target name="init" description="intialization">
+        <path id="bootclasspath">
+            <fileset dir="${wtk.home}/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+        <path id="classpath">
+            <pathelement location="${midp_lib}"/>
+            <pathelement location="${openxdata}"/>
+            <pathelement location="${midp-dbutils}"/>
+            <pathelement location="${openxdata-midp}"/>
+            <pathelement location="${midp-mvc}"/>
+            <pathelement location="${midp-utils}"/>
+            <pathelement location="${transport-layer}"/>
+            <pathelement location="${cldc_classes}"/>
+            <pathelement location="${bluecove}"/>
+            <pathelement location="${bluetooth-client}"/>
+            <pathelement location="${jzlib}"/>
+			<!-- <pathelement location="proguard.jar"/> -->
+			<!-- has lib been removed by accident??
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset> -->
+        </path>
+        <mkdir dir="dist"/>
+        <mkdir dir="build/obf"/>
+    </target>
+	
+    <target name="clean" description="Delete bin and dist directories">
+        <delete dir="bin"/>
+        <delete dir="dist" />
+        <delete dir="build" />
+		<!-- <delete dir="dist/obf"/> -->
+    </target>
+			
+    <target name="compile" depends="init, clean">
+		<!-- call other external build files here before building -->
+        <ant antfile="../../core/openxdata/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/midp-mvc/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/midp-utils/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/midp-dbutils/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/bluetooth-client/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/jzlib-1.0.7/build.xml" target="package" inheritall="false" />
+        <ant antfile="../../core/transport-layer/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/openxdata-midp/build.xml" target="package" inheritall="false"/>
+        <ant antfile="../../core/bluetooth-client/build.xml" target="package" inheritall="false"/>
+		<!-- insert build properties into template files -->
+        <ant antfile="build-configuration.xml" target="init" inheritall="false"/>
+		<!-- do compile now -->
+        <mkdir dir="bin"/>
+        <javac destdir="bin" bootclasspath="${midp_lib};${cldc_lib}" classpathref="classpath" target="1.3" source="1.3" debug="true" debuglevel="lines,source">
+            <src path="src"/>
+            <classpath>
+                <pathelement location="${midp_lib}"/>
+                <pathelement location="${openxdata}"/>
+                <pathelement location="${midp-dbutils}"/>
+                <pathelement location="${openxdata-midp}"/>
+                <pathelement location="${midp-mvc}"/>
+                <pathelement location="${midp-utils}"/>
+                <pathelement location="${transport-layer}"/>
+                <pathelement location="${cldc_classes}"/>
+                <pathelement location="${bluecove}"/>
+                <pathelement location="${bluetooth-client}"/>
+                <pathelement location="${jzlib}"/>
+			
+            </classpath>
+        </javac>
+    </target>
+	
+    <target name="preverify" depends="clean, init, compile">
+        <mkdir dir="build/preverified"/>
+        <exec executable="${midp}/bin/preverify">
+            <arg line="-classpath ${midp_lib}${path.separator}${cldc_lib}${path.separator}${openxdata-midp}${path.separator}${dbutils}${path.separator}${openxdata}${path.separator}${midp-dbutils}${path.separator}${midp-mvc}${path.separator}${midp-utils}${path.separator}${transport-layer}${path.separator}${jzlib}${path.separator}${bluetooth-client}"/>
+            <arg line="-d build/preverified"/>
+            <arg line="bin"/>
+        </exec>
+    </target>
+	
+    <target name="obfuscate" depends="package">
+		
+		<!-- obfuscate jar-->
+        <echo>obfuscating jar dist/obf/${jar.name}-midlet-obf.jar </echo>
+        <proguard microedition="on" overloadaggressively="on" repackageclasses="" allowaccessmodification="on" printseeds="on" usemixedcaseclassnames="false">
+            <libraryjar file="${midp_lib}" />
+            <libraryjar file="${cldc_lib}" />
+            <libraryjar file="${mmapi}" />
+            <libraryjar file="${bluecove}" />
+			
+		  -injars      dist/${packaged-jar}
+		  -outjars     dist/obf/${jar.name}-midlet-obf.jar
+		  -keep public class * extends javax.microedition.midlet.MIDlet
+        </proguard>
+		
+		<!-- unjar obfuscated -->
+        <echo>unjarring obfuscated jar</echo>
+        <property name="dir-obf-extract" value="build/obf/extract"/>
+        <unjar src="dist/obf/${jar.name}-midlet-obf.jar" dest="${dir-obf-extract}" />
+
+		<!-- preverify obfuscated classes-->
+        <echo>preverifying obfuscated classes</echo>
+        <property name="dir-preverified-obf" value="build/obf/preverifiedobf"/>
+        <mkdir dir="${dir-preverified-obf}"/>
+        <exec executable="${midp}/bin/preverify">
+            <arg line="-classpath ${midp_lib}${path.separator}${cldc_lib}${path.separator}${bluecove}"/>
+            <arg line="-d ${dir-preverified-obf}"/>
+            <arg line="${dir-obf-extract}"/>
+        </exec>
+		
+		<!-- repackage new jar -->
+        <echo>repackaging new jar</echo>
+        <jar basedir="${dir-preverified-obf}" jarfile="dist/obf/${obfuscated-jar}" manifest="Application Descriptor">
+            <fileset dir="res"/>
+        </jar>
+		
+		<!-- delete temporary jar-->
+        <delete file="dist/obf/${jar.name}-midlet-obf.jar"/>
+    </target>
+	
+    <target name="package" depends="preverify">
+		
+        <jar basedir="build/preverified" jarfile="dist/${packaged-jar}"
+			manifest="Application Descriptor">
+            <fileset dir="res"/>
+            <zipfileset src="${openxdata}"/>
+            <zipfileset src="${midp-dbutils}"/>
+            <zipfileset src="${openxdata-midp}"/>
+            <zipfileset src="${midp-mvc}"/>
+            <zipfileset src="${midp-utils}"/>
+            <zipfileset src="${transport-layer}"/>
+            <zipfileset src="${bluetooth-client}"/>
+            <zipfileset src="${jzlib}"/>
+            <zipfileset src="${cldc_classes}"/>
+        </jar>
+    </target>
+	
+    <target name="run-obfuscated" depends="obfuscate">
+		<!-- moving copying the jad file to the obf folder -->
+        <copy file="Application Descriptor" tofile="dist/obf/${jar.name}-midlet.jad"/>
+		
+		<!-- updating the jad file -->
+        <wtkjad jadfile ="dist/obf/${jar.name}-midlet.jad" jarfile="dist/obf/${obfuscated-jar}" update="true">
+            <midlet name="${midlet.name}" class="org.openxdata.forms.MainForm"/>
+        </wtkjad>
+		
+		<!-- executing the jad file -->
+        <exec executable="${midp}/bin/emulator">
+            <arg line="-Xdescriptor:dist/obf/${jar.name}-midlet.jad" />
+        </exec>
+    </target>
+	
+    <target name="run-non-obfuscated" depends="package">
+		<!-- moving copying the jad file to the obf folder -->
+        <copy file="Application Descriptor" tofile="dist/${jar.name}-midlet.jad"/>
+		
+		<!-- updating the jad file -->
+        <wtkjad jadfile ="dist/${jar.name}-midlet.jad" jarfile="dist/${packaged-jar}" update="true">
+            <midlet name="${midlet.name}" class="org.openxdata.forms.MainForm"/>
+        </wtkjad>
+		
+		<!-- executing the jad file -->
+        <exec executable="${midp}/bin/emulator">
+            <arg line="-Xdescriptor:dist/${jar.name}-midlet.jad" />
+<!--            <arg value="-cp"/>
+            <arg value="${basedir}/${dist.dir}/${dist.jar}"/>-->
+<!--            <arg value="-Xdevice:${platform.device}"/>
+            <arg value="-Xmain:${main.class}"/>-->
+            <arg value="-Xdebug"/>
+            <arg value="-Xrunjdwp:transport=dt_socket,address=6525,server=y,suspend=y"/>
+        </exec>
+    </target>
+</project>

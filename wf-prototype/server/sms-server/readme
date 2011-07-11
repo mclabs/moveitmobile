@@ -1,0 +1,3 @@
+The file javax.comm.properties should be in: JDKPATH\jre\lib
+The file comm.jar should be in JDKPATH\jre\lib\ext
+The file win32com.dll should be in JDKPATH\bin

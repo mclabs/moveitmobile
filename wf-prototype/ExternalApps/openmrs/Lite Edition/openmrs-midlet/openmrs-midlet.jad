@@ -1,0 +1,11 @@
+MIDlet-Version: 1.7
+MIDlet-Vendor: FCIT
+MIDlet-Jar-URL: openmrs-midlet-1.7.jar
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-1: OpenMRS,/icons/openmrs.PNG ,org.fcitmuk.openmrs.forms.MainForm
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Jar-Size: 38739
+MIDlet-Name: OpenMRS
+MIDlet-Push-1: sms://:1222, org.fcitmuk.openmrs.forms.MainForm, *
+MIDlet-Description: This midlet does openmrs data collection.
+SMS-Port: 1872
